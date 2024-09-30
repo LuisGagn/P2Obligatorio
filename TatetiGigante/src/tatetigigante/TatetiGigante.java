@@ -161,115 +161,77 @@ public class TatetiGigante {
     
     public static void imprimirConsola(char[][] tablero, int[] seleccion, int[][] testigo){
 
-        int filaImpresa = 0;
-        
-        int[] cuadrante = seleccionCuadrante(seleccion);
-        
-       // 0 | 6  | 12 | 18 
-        String divisor = " - + - + - ";   
-        
-        for(int i =0; i < tablero.length; i ++){
-            
-            // Imprime separadores horizontales
-            if(filaImpresa%6==0){
-            switch (cuadrante[0]){
-                case 1 -> {
-                    if(filaImpresa == 0 || filaImpresa == 6){
-                        imprimirSeparador(cuadrante[1]);
-                    } else {
-                        imprimirSeparador(0);
-                    }
-                }
-                case 2 -> {
-                    if(filaImpresa == 6 || filaImpresa == 12){
-                        imprimirSeparador(cuadrante[1]);
-                    }else {
-                        imprimirSeparador(0);
-                    }
-                }
-                case 3 -> {
-                    if(filaImpresa == 12 || filaImpresa == 18){
-                        imprimirSeparador(cuadrante[1]);
-                    }else {
-                        imprimirSeparador(0);
-                    }
-                }
-                default -> {
-                        imprimirSeparador(0);
-                }
-            }
-            System.out.println();
-            filaImpresa++;
-            }
-            
-            int colImpresa =0;
-            int elemImpreso = 0;
-            for(int j = 0; j<tablero.length; j++){
-                if(colImpresa%6==0){
-                switch (cuadrante[1]){
-                    case 1 -> {
-                        if(filaImpresa>0 && filaImpresa<6){
-                            imprimirAstk(cuadrante[0], colImpresa);
-                        } else {
-                            imprimirAstk(0,0);
-                        }
-                    }
-                    case 2 -> {
-                        if(filaImpresa>6 && filaImpresa<12){
-                            imprimirAstk(cuadrante[0], colImpresa);
-                        }else {
-                            imprimirAstk(0,0);
-                        }
-                    }
-                    case 3 -> {
-                        if(filaImpresa>12 && filaImpresa<18){
-                            imprimirAstk(cuadrante[0], colImpresa);
-                        }else {
-                            imprimirAstk(0,0);
-                        }
-                    }
-                    default -> {
-                        imprimirAstk(0,0);
-                         
-                    }
-                }
-                  colImpresa++;
-                }
-                
-             
-               
-              // Cambiar por funciones de coloreado
+      int separadorImpreso = 0;
+      boolean primer = false;
+      int[] cuadrante = seleccionCuadrante(seleccion);
+      int filaImpresa =0;
+      int cuadroImpresoV = 0;
+      String divisor = "- + - + - ";
+      
+      imprimirSeparador(cuadrante,separadorImpreso, cuadroImpresoV);
+      separadorImpreso++;
+      System.out.println();
+      
+      for(int i = 0; i < tablero.length; i ++){
+          int astkImpreso = 0;
+          int cuadroImpresoH = 0;
+          
+          
+          if(filaImpresa== 3){
+              cuadroImpresoV++;
+              imprimirSeparador(cuadrante,separadorImpreso, cuadroImpresoV);
+              separadorImpreso++;
+              System.out.println();
+              filaImpresa=0;
               
-              System.out.print(" "+tablero[i][j]);
-              colImpresa++;
+          } else { if(primer){
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              astkImpreso++;
+              System.out.print(divisor);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              astkImpreso++;
+              System.out.print(divisor);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              astkImpreso++;
+              System.out.print(divisor);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              astkImpreso++;
+              System.out.println();
+              astkImpreso=0;
+          }
+          }
+           int elemImpreso =0;
+          imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso);
+          astkImpreso++;
+          
+          for(int j = 0; j<tablero.length; j++){
+             
+              
+              System.out.print(tablero[i][j]+" ");
               elemImpreso++;
               
-              if(elemImpreso != 3){
-              System.out.print("|");
-              colImpresa++;
-              } else{
+              
+              if(elemImpreso==3){
+                  imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso);
+                  astkImpreso++;
+                  cuadroImpresoH++;
                   elemImpreso=0;
+              } else {
+                  System.out.print("| ");
               }
               
-             
               
-            }
-            filaImpresa++;
-            System.out.println();
-            if(filaImpresa%6 !=0 ){
-            imprimirAstk(0,0);
-            System.out.print(" -+ -+ -");
-            imprimirAstk(0,0);
-            System.out.print(" -+ -+ -");
-            imprimirAstk(0,0);
-            System.out.print(" -+ -+ -");
-            imprimirAstk(0,0);
-            System.out.println();
-            filaImpresa++;
-            }
-         
-        }
+          }
+          filaImpresa++;
+          System.out.println();
+          primer = true;
+          
+          
 
+      }
+        
+        imprimirSeparador(cuadrante, separadorImpreso, cuadroImpresoV);
+        
         
         
         
@@ -278,26 +240,57 @@ public class TatetiGigante {
         
     }
     
+
     
-    public static void imprimirAstk(int num, int col){
-            switch (num){
+   public static void test (int num, int indice){
+        switch (num){
                 case 1 -> {
-                    if(col == 0 || col == 6){
+                    if(indice == 0 || indice == 1){
                         colorAstk(1);
                     } else {
                         colorAstk(0);
                     }
                 }
                 case 2 -> {
-                    if(col == 6 || col == 12){
+                    if(indice == 1 || indice == 2){
                         colorAstk(1);
                     } else {
                         colorAstk(0);
                     }
                 }
                 case 3 -> {
-                    if(col == 12 || col == 18){
+                    if(indice == 2 || indice == 3){
                         colorAstk(1);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                default -> {
+                        colorAstk(0);
+                }
+            }
+
+} 
+    public static void imprimirAstk(int[] num, int col, int indice){
+
+        switch (num[0]){
+                case 1 -> {
+                    if(col == 0){
+                        test(num[1], indice);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                case 2 -> {
+                    if(col == 1){
+                        test(num[1], indice);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                case 3 -> {
+                    if(col == 2){
+                       test(num[1], indice);
                     } else {
                         colorAstk(0);
                     }
@@ -315,22 +308,58 @@ public class TatetiGigante {
             System.out.print(Colors.YELLOW_BACKGROUND+"* "+Colors.RESET);
         }
     }
+    // EL ERROR ES QUE TOMA UN SOLO COSO, VERIFICAR Y MODIFICAR APRA QUE TOME 2
     
-    
-    public static void imprimirSeparador(int numero){
-        String separador="* * * * * * ";
+    public static void imprimirSeparador(int[] numero ,int indice, int a){
+        String separador="* * * * * ";
+        int astkImpreso =0;
         for(int i = 1; i<=3; i++){
-            if(numero == i){
-                System.out.print(Colors.YELLOW_BACKGROUND+separador+Colors.RESET);
-            } else{
-                System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
-            }
+            if(numero[1] == i){
+                imprimirAstk(numero,a,astkImpreso);
+                astkImpreso++;
+                switch (numero[0]) {
+                    case 1 -> {
+                        
+                        if(indice== 0 || indice == 1){
+                            System.out.print(Colors.YELLOW_BACKGROUND+separador+Colors.RESET);
+                        }else{
+                            System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
+                    
+                        }
+                    } 
+                    case 2 -> {
+                    
+                        if(indice== 1 || indice == 2){
+                                                    
+                            System.out.print(Colors.YELLOW_BACKGROUND+separador+Colors.RESET);
+                        }else{
+                                                
+                            System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
+                        }
+                    } 
+                    case 3 -> {
+                        if(indice== 2 || indice == 3){
+                                                  
+                            System.out.print(Colors.YELLOW_BACKGROUND+separador+Colors.RESET);
+                        }else{
+                                                
+                            System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
+                        }
+                    }                     
+                }
+                imprimirAstk(numero,a,astkImpreso);
+                        astkImpreso++;
+                
+                     
+                
+            } else{                
+                imprimirAstk(numero,a,astkImpreso);
+                        astkImpreso++;
+                            System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
+                            
+                        }
         }
-        if(numero == 3){
-            System.out.print(Colors.YELLOW_BACKGROUND+"* "+Colors.RESET);
-        } else {
-            System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET);
-        }
+
 
     }
     
