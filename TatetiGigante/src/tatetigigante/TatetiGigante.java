@@ -40,7 +40,7 @@ public class TatetiGigante {
         
         int[] jugada = seleccionJugada(tateti);
         
-        imprimirConsola(tablero,tateti);
+        imprimirConsola(tablero,tateti, matrizTestigo);
         
         tablero = jugadas(tablero,jugada);
         
@@ -159,114 +159,211 @@ public class TatetiGigante {
     }
     
     
-    public static void imprimirConsola(char[][] tablero, int[] posicion){
-        
-        // 4 cols de *
-        // 9 cols X , O 
-        // 6 cols |
-        
-        // * En valores 0, 6, 12, 18 -- Filas
-        // * En valores 0, 6, 12, 18 -- Cols
-        int actualRow = 0;
-        int actualCol = 0;
-        
-        Integer[] ast = {0, 6, 12, 18};
-        int countF = 0;
-        
-        
-        String separadorA = "* * * * * * ";
-        String separadorB = "- + - + - ";
-        
-        
-        // posicion[0] --> 0, 3 , 6 --> 0, 1 y 2 | 3, 2 y 3 | 6, 3 y 4. 
-        // posicion[1] --> 0, 3 , 6 --> 0, 1 y 2 | 3, 2 y 3 | 6, 3 y 4. 
-        
-       String vert = "";
-       int horz = 0;
-       vert = switch (posicion[0]) {
-            case 0 -> "12";
-            case 3 -> "23";
-            case 6 -> "34";
-            default -> "";
-        };   
-        
-       horz = switch (posicion[1]) {
-            case 0 -> 1;
-            case 3 -> 2;
-            case 6 -> 3;
-            default -> 0;
-        };   
-        
-        
-        
-        int contadorHorizontal =1;
+    public static void imprimirConsola(char[][] tablero, int[] seleccion, int[][] testigo){
 
+        int filaImpresa = 0;
         
-        for(int i =0; i < tablero.length; i++){
+        int[] cuadrante = seleccionCuadrante(seleccion);
+        
+       // 0 | 6  | 12 | 18 
+        String divisor = " - + - + - ";   
+        
+        for(int i =0; i < tablero.length; i ++){
             
-            // Separador de ****** 3 secciones
-            if(i%3==0){
-                for(int k = 1; k <=3; k++){
-                if(vert.contains(Integer.toString(contadorHorizontal)) && horz == k){
-                System.out.print(Colors.YELLOW_BACKGROUND+separadorA+Colors.RESET);
-
-                }else{
-                System.out.print(Colors.GREEN_BACKGROUND+separadorA+Colors.RESET);
-                        }
-                
-                }
-                contadorHorizontal++;
-                System.out.println();
-            }
-            
-            
-            
-            
-            // FOR que imprima lo mismo 3 veces pero con color segun A B o C
-            if(countF%3 != 0){
-                
-                if(horz == )
-                
-                System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET+"- + - + - * - + - + - * - + - + -"+Colors.GREEN_BACKGROUND+" *"+Colors.RESET);
-                System.out.println();
-            }
-
-            int count = 1;
-            
-            for(int j = 0; j < tablero.length; j++){
-                if(j%3 == 0){ 
-                    System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET);
-                    System.out.print(tablero[i][j]+" | ");
-                }else{
-                    if(count%3!=0){
-                System.out.print(tablero[i][j]+" | ");
-                }
-                    else {
-                        System.out.print(tablero[i][j]+" ");
+            // Imprime separadores horizontales
+            if(filaImpresa%6==0){
+            switch (cuadrante[0]){
+                case 1 -> {
+                    if(filaImpresa == 0 || filaImpresa == 6){
+                        imprimirSeparador(cuadrante[1]);
+                    } else {
+                        imprimirSeparador(0);
                     }
                 }
-                
-                if(j == tablero.length-1){
-                    System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET);
+                case 2 -> {
+                    if(filaImpresa == 6 || filaImpresa == 12){
+                        imprimirSeparador(cuadrante[1]);
+                    }else {
+                        imprimirSeparador(0);
+                    }
+                }
+                case 3 -> {
+                    if(filaImpresa == 12 || filaImpresa == 18){
+                        imprimirSeparador(cuadrante[1]);
+                    }else {
+                        imprimirSeparador(0);
+                    }
+                }
+                default -> {
+                        imprimirSeparador(0);
+                }
+            }
+            System.out.println();
+            filaImpresa++;
+            }
+            
+            int colImpresa =0;
+            int elemImpreso = 0;
+            for(int j = 0; j<tablero.length; j++){
+                if(colImpresa%6==0){
+                switch (cuadrante[1]){
+                    case 1 -> {
+                        if(filaImpresa>0 && filaImpresa<6){
+                            imprimirAstk(cuadrante[0], colImpresa);
+                        } else {
+                            imprimirAstk(0,0);
+                        }
+                    }
+                    case 2 -> {
+                        if(filaImpresa>6 && filaImpresa<12){
+                            imprimirAstk(cuadrante[0], colImpresa);
+                        }else {
+                            imprimirAstk(0,0);
+                        }
+                    }
+                    case 3 -> {
+                        if(filaImpresa>12 && filaImpresa<18){
+                            imprimirAstk(cuadrante[0], colImpresa);
+                        }else {
+                            imprimirAstk(0,0);
+                        }
+                    }
+                    default -> {
+                        imprimirAstk(0,0);
+                         
+                    }
+                }
+                  colImpresa++;
                 }
                 
-                count++;
+             
+               
+              // Cambiar por funciones de coloreado
+              
+              System.out.print(" "+tablero[i][j]);
+              colImpresa++;
+              elemImpreso++;
+              
+              if(elemImpreso != 3){
+              System.out.print("|");
+              colImpresa++;
+              } else{
+                  elemImpreso=0;
+              }
+              
+             
+              
             }
-            
-            
-                        if(i==tablero.length-1){
-                            System.out.println();
-                System.out.print(Colors.GREEN_BACKGROUND+"* * * * * * * * * * * * * * * * * * *"+Colors.RESET);
-                
-            }
-            
+            filaImpresa++;
             System.out.println();
-            countF++;
+            if(filaImpresa%6 !=0 ){
+            imprimirAstk(0,0);
+            System.out.print(" -+ -+ -");
+            imprimirAstk(0,0);
+            System.out.print(" -+ -+ -");
+            imprimirAstk(0,0);
+            System.out.print(" -+ -+ -");
+            imprimirAstk(0,0);
+            System.out.println();
+            filaImpresa++;
+            }
+         
+        }
+
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    public static void imprimirAstk(int num, int col){
+            switch (num){
+                case 1 -> {
+                    if(col == 0 || col == 6){
+                        colorAstk(1);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                case 2 -> {
+                    if(col == 6 || col == 12){
+                        colorAstk(1);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                case 3 -> {
+                    if(col == 12 || col == 18){
+                        colorAstk(1);
+                    } else {
+                        colorAstk(0);
+                    }
+                }
+                default -> {
+                        colorAstk(0);
+                }
+            }
+    }
+    
+    public static void colorAstk(int numero){
+        if(numero == 0){
+            System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET);
+        } else {
+            System.out.print(Colors.YELLOW_BACKGROUND+"* "+Colors.RESET);
+        }
+    }
+    
+    
+    public static void imprimirSeparador(int numero){
+        String separador="* * * * * * ";
+        for(int i = 1; i<=3; i++){
+            if(numero == i){
+                System.out.print(Colors.YELLOW_BACKGROUND+separador+Colors.RESET);
+            } else{
+                System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
+            }
+        }
+        if(numero == 3){
+            System.out.print(Colors.YELLOW_BACKGROUND+"* "+Colors.RESET);
+        } else {
+            System.out.print(Colors.GREEN_BACKGROUND+"* "+Colors.RESET);
+        }
+
+    }
+    
+    // INDICA CUAL DE LOS 3 CUADRANTES ES.
+       public static int[] seleccionCuadrante(int[] cuadrante){
+        
+        int[] seleccion = new int[2];
+        
+        switch (cuadrante[0]){
+            case 0 -> {
+                seleccion[0] = 1; 
+            }
+            case 3 -> {
+                seleccion[0] = 2; 
+            }
+            case 6 -> {
+                seleccion[0] = 3;
+            }
+        }
+        switch (cuadrante[1]){
+            case 0 -> {
+                seleccion[1] = 1; 
+            }
+            case 3 -> {
+                seleccion[1] = 2; 
+            }
+            case 6 -> {
+                seleccion[1] = 3;
+            }
+            
         }
         
+        return seleccion;
         
-       System.out.println("HORIZONTAL = " + vert+ " "+" "+ contadorHorizontal);
-        
-    } 
-    
+    }
 }
