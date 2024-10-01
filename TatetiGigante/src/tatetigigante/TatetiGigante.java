@@ -180,39 +180,40 @@ public class TatetiGigante {
           if(filaImpresa== 3){
               cuadroImpresoV++;
               imprimirSeparador(cuadrante,separadorImpreso, cuadroImpresoV);
+              
               separadorImpreso++;
               System.out.println();
               filaImpresa=0;
               
           } else { if(primer){
-              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
               System.out.print(divisor);
-              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
               System.out.print(divisor);
-              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
               System.out.print(divisor);
-              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso);
+              imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
               System.out.println();
               astkImpreso=0;
           }
           }
            int elemImpreso =0;
-          imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso);
+          imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso,false);
           astkImpreso++;
           
           for(int j = 0; j<tablero.length; j++){
              
-              
-              System.out.print(tablero[i][j]+" ");
+              // Agregar matriz testigo
+              colorearString((tablero[i][j]+" "), 333);
               elemImpreso++;
               
               
               if(elemImpreso==3){
-                  imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso);
+                  imprimirAstk(cuadrante,cuadroImpresoV,astkImpreso,false);
                   astkImpreso++;
                   cuadroImpresoH++;
                   elemImpreso=0;
@@ -234,13 +235,27 @@ public class TatetiGigante {
         
         
         
-        
+
         
         
         
     }
     
-
+   public static void colorearString(String caracter, int status){
+       
+       if(caracter.equals("X ")|| status == 1){
+           System.out.print(Colors.RED+caracter+Colors.RESET);
+       } else {
+           if(caracter.equals("O ")||status==2){
+               System.out.print(Colors.BLUE+caracter+Colors.RESET);
+           } else {
+               System.out.print(caracter);
+           }
+       }
+       
+       
+       
+   }
     
    public static void test (int num, int indice){
         switch (num){
@@ -271,25 +286,25 @@ public class TatetiGigante {
             }
 
 } 
-    public static void imprimirAstk(int[] num, int col, int indice){
+    public static void imprimirAstk(int[] num, int col, int indice, boolean test){
 
         switch (num[0]){
                 case 1 -> {
-                    if(col == 0){
+                    if(col == 0 || (col == 1&&test)){
                         test(num[1], indice);
                     } else {
                         colorAstk(0);
                     }
                 }
                 case 2 -> {
-                    if(col == 1){
+                    if(col == 1 || (col == 2&&test)){
                         test(num[1], indice);
                     } else {
                         colorAstk(0);
                     }
                 }
                 case 3 -> {
-                    if(col == 2){
+                    if(col == 2|| (col == 3&&test)){
                        test(num[1], indice);
                     } else {
                         colorAstk(0);
@@ -315,7 +330,7 @@ public class TatetiGigante {
         int astkImpreso =0;
         for(int i = 1; i<=3; i++){
             if(numero[1] == i){
-                imprimirAstk(numero,a,astkImpreso);
+                imprimirAstk(numero,indice,astkImpreso, true);
                 astkImpreso++;
                 switch (numero[0]) {
                     case 1 -> {
@@ -347,13 +362,13 @@ public class TatetiGigante {
                         }
                     }                     
                 }
-                imprimirAstk(numero,a,astkImpreso);
+                imprimirAstk(numero,indice,astkImpreso, true);
                         astkImpreso++;
                 
                      
                 
             } else{                
-                imprimirAstk(numero,a,astkImpreso);
+                imprimirAstk(numero,indice,astkImpreso,true);
                         astkImpreso++;
                             System.out.print(Colors.GREEN_BACKGROUND+separador+Colors.RESET);
                             
