@@ -33,8 +33,9 @@ public class TatetiGigante {
         // 2 -- Jugador O gano la casilla
         int[][] matrizTestigo = new int[3][3];
        
-
-        
+        matrizTestigo[1][0]=1;
+        matrizTestigo[2][1]=2;
+        matrizTestigo[1][1]=3;
         // Selecciona tateti inicial.
         int[] tateti = seleccionTablero();
         
@@ -160,7 +161,8 @@ public class TatetiGigante {
     
     
     public static void imprimirConsola(char[][] tablero, int[] seleccion, int[][] testigo){
-
+        System.out.print("      1           2           3");
+        System.out.println();
       int separadorImpreso = 0;
       boolean primer = false;
       int[] cuadrante = seleccionCuadrante(seleccion);
@@ -180,7 +182,6 @@ public class TatetiGigante {
           if(filaImpresa== 3){
               cuadroImpresoV++;
               imprimirSeparador(cuadrante,separadorImpreso, cuadroImpresoV);
-              
               separadorImpreso++;
               System.out.println();
               filaImpresa=0;
@@ -188,13 +189,14 @@ public class TatetiGigante {
           } else { if(primer){
               imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
-              System.out.print(divisor);
+              //System.out.print(divisor);
+              colorearString(divisor, testigo[cuadroImpresoV][0]);
               imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
-              System.out.print(divisor);
+              colorearString(divisor, testigo[cuadroImpresoV][1]);
               imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
-              System.out.print(divisor);
+              colorearString(divisor, testigo[cuadroImpresoV][2]);
               imprimirAstk(cuadrante, cuadroImpresoV,astkImpreso,false);
               astkImpreso++;
               System.out.println();
@@ -208,7 +210,7 @@ public class TatetiGigante {
           for(int j = 0; j<tablero.length; j++){
              
               // Agregar matriz testigo
-              colorearString((tablero[i][j]+" "), 333);
+              colorearString((tablero[i][j]+" "), testigo[cuadroImpresoV][cuadroImpresoH]);
               elemImpreso++;
               
               
@@ -218,12 +220,20 @@ public class TatetiGigante {
                   cuadroImpresoH++;
                   elemImpreso=0;
               } else {
-                  System.out.print("| ");
+                  colorearString("| ",testigo[cuadroImpresoV][cuadroImpresoH]);
               }
               
               
           }
           filaImpresa++;
+          if(filaImpresa == 2){
+              switch (separadorImpreso){
+                  case 1 -> System.out.print("A");
+                  case 2 -> System.out.print("B");
+                  case 3 -> System.out.print("C");
+              }
+              
+          }
           System.out.println();
           primer = true;
           
@@ -243,15 +253,35 @@ public class TatetiGigante {
     
    public static void colorearString(String caracter, int status){
        
-       if(caracter.equals("X ")|| status == 1){
-           System.out.print(Colors.RED+caracter+Colors.RESET);
-       } else {
-           if(caracter.equals("O ")||status==2){
+       
+       switch (status){
+           
+           case 1 -> {
+                System.out.print(Colors.RED+caracter+Colors.RESET);
+           }
+           
+           case 2 ->{
                System.out.print(Colors.BLUE+caracter+Colors.RESET);
-           } else {
-               System.out.print(caracter);
+           }
+           
+           case 3 -> {
+               System.out.print(Colors.BLACK+caracter+Colors.RESET);
+           }
+           
+           case 0 -> {
+               if(caracter.equals("X ")){
+                   System.out.print(Colors.RED+caracter+Colors.RESET);
+               } else {
+                   if(caracter.equals("O ")){
+                   System.out.print(Colors.BLUE+caracter+Colors.RESET);
+                   } else {
+                       System.out.print(caracter);
+                   }
+               }
            }
        }
+       
+
        
        
        
