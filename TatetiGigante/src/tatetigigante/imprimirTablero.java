@@ -1,6 +1,6 @@
 
 package tatetigigante;
-
+import tatetigigante.Colors;
 
 public class imprimirTablero {
     
@@ -120,9 +120,12 @@ public class imprimirTablero {
     
 
    public static void colorearString(String caracter, int status){
+        if(caracter.equals('\u0000'+" ")){
+            caracter = "  ";
+        }
 
     // colorearString es una funcion que recibe un string y el status del cuadrante dado por la matrizTestigo.
-       
+      
        switch (status){
            // Ganador X
            case 1 -> {
@@ -149,8 +152,8 @@ public class imprimirTablero {
                }
            }
        }
-       
-   }
+       } 
+   
     
    public static void astkAuxiliar (int columna, int astkImpreso){
        
