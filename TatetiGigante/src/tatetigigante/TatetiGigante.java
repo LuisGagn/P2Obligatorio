@@ -23,19 +23,43 @@ public class TatetiGigante {
         // 3 -- No mas movimientos posibles
         int[][] matrizTestigo = new int[3][3];
 
-        // Selecciona tateti inicial.
+        // Selecciona tateti inicial y su jugada.
         int[] tateti = seleccionTablero();
         
         int[] jugada = seleccionJugada(tateti);
         
+        
+       
+       
+       int jugador = 0;
+       
+       tablero = jugadas(tablero,jugada, jugador);
+        
        imprimirTablero.imprimirConsola(tablero,tateti, matrizTestigo);
         
-       tablero = jugadas(tablero,jugada);
+       
+    }
+    
+
+    public static int[][] estadoJugada(int[][] matrizTestigo, int[][] tablero, int[] jugada, int[] tateti){
         
+        
+        int cantX = 0;
+        int cantO = 0;
+        int ganador = -1;
+        int fila = tateti[0];
+        int col = tateti[1];
+        
+        for(int i = fila; i < fila+3; i++){
+            if(tablero[0][i]==1){
+                cantX++;
+            }
+        }
         
         
     }
-    
+
+
     
     public static int[] seleccionJugada(int[] tateti){
         
@@ -129,16 +153,15 @@ public class TatetiGigante {
         
     }
     
-    public static char[][] jugadas (char[][] tablero, int[] jugada){
+    public static char[][] jugadas (char[][] tablero, int[] jugada, int jugador){
         
         // Valores 0 --> inf || Par --> Jugador 1 || Impar --> Jugador 2
-        int turno = 0;
         char valor ='X';
-        if(turno %2 != 0){
+        if(jugador %2 != 0){
             valor = 'O';
         }        
         
-        turno++;
+        jugador++;
         tablero[jugada[0]][jugada[1]] = valor;
         
         return tablero;
