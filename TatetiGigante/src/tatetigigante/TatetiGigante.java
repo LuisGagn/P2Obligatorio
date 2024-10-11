@@ -24,12 +24,12 @@ String[] banner = {
             System.out.println(line);
             Thread.sleep(300);  // 300 ms delay between each line
         }
-        System.out.println("\nWelcome to the Program!");
+        System.out.println("\nINSERTAR MENU INTERACTIVO DSPS");
     }
 
     public static void main(String[] args)throws InterruptedException {
         
-        bienvenida();
+       // bienvenida();
         
         Scanner in = new Scanner(System.in);
         
@@ -77,30 +77,34 @@ String[] banner = {
         Scanner in = new Scanner(System.in);
         
         boolean enJuego = true;
-        boolean primerMov = false;
-        
-        
-        while(enJuego) {
-            
-            
-            if(!primerMov) {
+
                 System.out.println("Indique el tateti inicial");
                 int[] tateti = seleccionTablero();
                 imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+                System.out.println("");
                 System.out.println("Indique su jugada");
-                int[] jugada = seleccionJugada(tateti);
+                String movimiento = in.nextLine();
+                int[] newTablero = posicionInicial(movimiento);
+                int[] jugada = seleccionJugada(tateti, movimiento);
+                System.out.flush();
                 tablero = jugadas(tablero,jugada, jugador);
                 imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-            }
+                
+        while(enJuego) {
             
-            enJuego = false;
+            jugador++;
+            System.out.println("Indique su jugada");
+            System.out.flush();
+            
+            imprimirTablero.imprimirConsola(tablero, newTablero, matrizTestigo);
+            movimiento = in.nextLine();
+            jugada = seleccionJugada(newTablero,movimiento);
+            newTablero = posicionInicial(movimiento);
+            tablero = jugadas(tablero,jugada, jugador);
+          
             
             
-            
-            
-            
-            
-            
+                
             
         }
         
@@ -165,17 +169,18 @@ String[] banner = {
     
     // AGREGAR VALIDACION DE CASILLA OCUPADA POR OTRA
     
-    public static int[] seleccionJugada(int[] tateti){
+    public static int[] seleccionJugada(int[] tateti, String movimiento){
         
         Scanner in = new Scanner(System.in);
         
-        String jugada = in.nextLine();
+        //String jugada = in.nextLine();
         
-        int[] casilla = posJugada(tateti, jugada);
+        int[] casilla = posJugada(tateti, movimiento);
         
         if(casilla[0] == -1 || casilla[1] == -1){
             System.out.println("Casilla invalida, pruebe nuevamente");
-            return seleccionJugada(tateti);
+            movimiento = in.nextLine();
+            return seleccionJugada(tateti, movimiento);
         }
         return casilla;
     }
