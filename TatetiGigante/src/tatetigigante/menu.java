@@ -2,7 +2,7 @@
 package tatetigigante;
 
 import java.util.Scanner;
-import static tatetigigante.juego.sistema;
+import static tatetigigante.sistema.clearConsole;
 
 
 public class menu {
@@ -33,12 +33,13 @@ public class menu {
                     System.out.println("Registrar a un jugador");
                 }
                  case 2-> {
-                    System.out.println("Jugar juego");
-                    tatetigigante.juego.sistema(tablero,matrizTestigo,cantJugadasTateti,turno,jugadores);
+                    clearConsole();
+                    System.out.println("Jugando juego");
+                    tatetigigante.juego.jugar(tablero,matrizTestigo,cantJugadasTateti,turno,jugadores);
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
-                    tatetigigante.contraMaquina.sistema(tablero,matrizTestigo,cantJugadasTateti,turno);
+                    tatetigigante.contraMaquina.jugar(tablero,matrizTestigo,cantJugadasTateti,turno);
                 }
                    case 4-> {
                     System.out.println("Ranking");
