@@ -3,30 +3,41 @@ package tatetigigante;
 
 import java.util.Scanner;
 
+
+
+
+
 public class sistema {
     
-        
+    
+    
+    
+//  ----------------------------------------             
+//  |   ESTADO DEL TABLERO Y SUBTABLEROS   |
+//  ----------------------------------------    
+    
+
+//  ESTADO DE CADA SUBTABLERO    
     public static int estadoMatriz(char[][] tablero, int[] tateti){
         int ganador = 0;
         int fila = tateti[0];
         int col = tateti[1];
         boolean encontrado = false;
         
-        
-        // DIAGONALES
+//      VER DIAGONALES
         if(match(tablero[fila][col], tablero[fila+1][col+1], tablero[fila+2][col+2]) ||
            match(tablero[fila][col+2], tablero[fila+1][col+1], tablero[fila+2][col])) {
             ganador = (tablero[fila+1][col+1] == 'X') ? 1 : 2;
         }
         
-        // HORIZONTALES
+//      VER HORIZONTALES
         for (int i = 0; i < 3 && !encontrado; i++) {
             if (match(tablero[fila+i][col], tablero[fila+i][col+1], tablero[fila+i][col+2])) {
              ganador = (tablero[fila+i][col] == 'X') ? 1 : 2;
             }
         }
         
-        // VERTICALES
+//      VER VERTICALES
         for (int j = 0; j < 3 && !encontrado; j++) {
             if (match(tablero[fila][col+j], tablero[fila+1][col+j], tablero[fila+2][col+j])) {
                 ganador = (tablero[fila][col+j] == 'X') ? 1 : 2;
@@ -34,11 +45,10 @@ public class sistema {
         }
         
         return ganador;
-
-        
+ 
     }
     
-    // Si hay ganador o no
+//  ESTADO DEL TABLERO GLOBAL (SI HAY UN GANADOR)
     public static int estadoJuego(int[][] matrizTestigo){
 
         char[][] charMatrix = new char[3][3];
@@ -48,14 +58,13 @@ public class sistema {
                 charMatrix[i][j] = (char) (matrizTestigo[i][j]+'0');  
             }
         }
-        
         int[] initial = {0,0};
-        
         int ganador = estadoMatriz(charMatrix, initial);
-        return ganador;
         
+        return ganador;
     }
     
+//  Modifica la matriz testigo segun si el tablero lo gano X o O.
     public static int[][] estadoTestigo(int[][] matrizTestigo, char[][] tablero, int[] tateti){
         
 
@@ -69,7 +78,9 @@ public class sistema {
         return matrizTestigo;
     }
 
-      public static int[] seleccionJugada (int[] tateti, String casilla){
+    
+//  Indica la posicion en el tablero de la jugada.     
+    public static int[] seleccionJugada (int[] tateti, String casilla){
         
         int[] concat = new int[2];
         
@@ -95,8 +106,10 @@ public class sistema {
         
     }
     
-    // Devuelve la casilla principal en forma de array donde indica la fila
-    // y la columna en la que comienza el tateti pequeño.
+
+//  Indica la fila y columna de la casilla inicial en el tablero de cada tateti
+//  Estas son: 0,0; 0,3; 0,6; 3,0; 3,3; 3,6; 6,0; 6,3; 6,6    
+
     public static int[] seleccionTablero(String casilla){
         
         int[] concat = new int[2];
@@ -118,9 +131,9 @@ public class sistema {
         return concat;
     }
 
+    
+//  Ingresa "X" o "O" segun el turno.
     public static char[][] jugadas (char[][] tablero, int[] jugada, int turno){
-        
-        Scanner in = new Scanner(System.in);
         
         // Valores  Par --> turno 1 || Impar --> turno 2
         char valor ='X';
@@ -133,13 +146,17 @@ public class sistema {
     }
     
    
+    
+//  Valida cualquier string ingresado, si es Q, M o si es una jugada, asi mismo valida que la jugada sea valida.    
     public static String validador(String palabra){
         
         Scanner in = new Scanner(System.in);
         palabra = palabra.toUpperCase();
-        
-        if (palabra.indexOf('Q')==-1 || palabra.length()>2){
         boolean posicionIncorrecta = false;
+        boolean quitOrMaestra = (palabra.indexOf('Q')==-1 && palabra.indexOf('M')==-1);
+        
+//  Verifica que sea un string tipo A1 B2 C3, etc.         
+        if (quitOrMaestra && palabra.length()==2){
         String letras = "ABC";
         int num = Character.digit(palabra.charAt(1), 10);
 
@@ -153,6 +170,15 @@ public class sistema {
                   posicionIncorrecta = true;
               }
         }
+           } 
+//  Si es Q o M, lo devuelve, si no pide una nueva.        
+        else { 
+            if(palabra.length() ==1 && !quitOrMaestra){
+            palabra +=" ";
+            } else {
+                posicionIncorrecta = true;
+            }
+        }
         
        
         if(posicionIncorrecta) {
@@ -160,13 +186,11 @@ public class sistema {
             palabra = in.nextLine();
             return validador(palabra);
         }
-        } else {
-            palabra +=" ";
-        }
-        
+     
         return palabra;
     }
     
+//  Funcion utilizada para validar ganador.    
     public static boolean match(char a, char b, char c){
             return a == b && b == c && (a == 'X' || a == 'O' || a == '1' || a == '2');
         }
@@ -174,18 +198,18 @@ public class sistema {
     
     
     
-    
+//  Devuelve si se indico terminar el juego o no.    
     public static boolean terminar(String movimiento){
-        
-        
+
         if (movimiento.indexOf('Q')!=-1){
             return true;
         } else {
             return false;
         }
-        
+
     }
     
+//  Borra la consola (Empuja en pantalla lo que no debe verse).    
     public static void clearConsole() {
     for (int i = 0; i < 50; i++) {
         System.out.println();
@@ -193,6 +217,11 @@ public class sistema {
 }
 
     
+//      ----------------------------------------------
+//      | FUNCION SOLAMENTE UTILIZADA EN VS. MAQUINA | 
+//      ----------------------------------------------
+    
+//  Ingresa una posicion en el tablero, elige la primer casilla disponible o tablero.    
     public static String maquinaCasilla(char[][] tablero, int[] tateti){
         int[] posicion = new int[2];
         int fila = tateti[0];
@@ -237,6 +266,83 @@ public class sistema {
         
     }
     
+    
+//      -------------------------------------
+//      | FUNCIONES SOBRE LA JUGADA MAESTRA | 
+//      -------------------------------------
+    
+//  Indica si puede o no jugar la jugada maestra.    
+    public static boolean maestra(int turno, boolean[] jugadaUtilizada){
+        if(turno%2 == 0 && !jugadaUtilizada[0]){
+            return true;
+        } 
+        if(turno%2 != 0 && !jugadaUtilizada[1]){
+            return true;
+        } 
+        
+        return false;
+    }
+    
+    
+//  Modifica el valor si se utiliza la jugada maestra.    
+    public static boolean[] maestraValidador(int turno, boolean[] jugadaUtilizada){
+        System.out.println(turno);
+       
+        if(turno%2 == 0){
+            jugadaUtilizada[0] = true;
+        } 
+        if(turno%2 != 0){
+            jugadaUtilizada[1] = true;
+        } 
+        
+        return jugadaUtilizada;
+    }
+    
+    
+//  Borra el mini tablero.    
+    public static char [][] maestraTablero(char[][] tablero, String movimiento){
+        
+        int[] tateti = seleccionTablero(movimiento);
+
+        int fila = tateti[0];
+        int col = tateti[1];
+        
+        
+        for(int i = fila; i< fila+3; i++){
+            for (int j = col; j < col+3; j++){
+                tablero[i][j]='\u0000';
+            }
+        }
+        return tablero;
+    }
+ 
+//  Borra los datos del testigo    
+    public static int[][] maestraTestigo(int[][] matrizTestigo, String movimiento){
+        int[] tateti = seleccionTablero(movimiento);
+        
+        int fila = tateti[0]/3;
+        int col = tateti[1]/3;
+        
+        matrizTestigo[fila][col] = 0;
+
+        return matrizTestigo;
+
+    }
+    
+//  Borra las jugadas.
+    public static int[][] maestraCantJugadas(int[][] cantJugadasTateti, String movimiento){
+        int[] tateti = seleccionTablero(movimiento);
+        
+        int fila = tateti[0]/3;
+        int col = tateti[1]/3;
+        
+        cantJugadasTateti[fila][col] = 0;
+        
+
+        return cantJugadasTateti;
+        
+        
+    }
     
     
 

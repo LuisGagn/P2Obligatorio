@@ -9,13 +9,13 @@ public class menu {
     
     
     
-    public static void startMenu(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int turno, String[] jugadores){
+    public static void startMenu(String[] jugadores){
         
-       Scanner scanner = new Scanner(System.in);
+       Scanner in = new Scanner(System.in);
         int choice;
 
         do {
-            // Print the menu options
+            // Opciones menu principal
             System.out.println("=== Menu Principal ===");
             System.out.println("1. Registrar jugador");
             System.out.println("2. Jugar entre 2 jugadores");
@@ -25,7 +25,7 @@ public class menu {
             System.out.print("Indique su opcion: ");
 
             // Get user input
-            choice = scanner.nextInt();
+            choice = in.nextInt();
 
             // Process the user's choice
             switch (choice) {
@@ -35,11 +35,11 @@ public class menu {
                  case 2-> {
                     clearConsole();
                     System.out.println("Jugando juego");
-                    tatetigigante.juego.jugar(tablero,matrizTestigo,cantJugadasTateti,turno,jugadores);
+                    tatetigigante.juego.jugar(jugadores);
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
-                    tatetigigante.contraMaquina.jugar(tablero,matrizTestigo,cantJugadasTateti,turno);
+                    tatetigigante.contraMaquina.jugar();
                 }
                    case 4-> {
                     System.out.println("Ranking");
@@ -57,7 +57,7 @@ public class menu {
 
         } while (choice != 0); // Continue until the user chooses to exit
 
-        scanner.close();
+        in.close();
         
   
         

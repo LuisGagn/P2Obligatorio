@@ -11,7 +11,11 @@ import tatetigigante.sistema;
 public class contraMaquina extends sistema{
        
   
-    public static void jugar(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int turno){
+    public static void jugar(){
+        int turno = 0;
+        char[][] tablero =new char[9][9];
+        int[][] matrizTestigo = new int[3][3];
+        int[][] cantJugadasTateti = new int [3][3];
         
         Scanner in = new Scanner(System.in);
         String winner = "";
@@ -19,12 +23,14 @@ public class contraMaquina extends sistema{
         boolean terminarJuego = false;
         int[] jugada = new int[2];
         int[] posicion = new int[2];
-//                      ---------------------
-//                      COMIENZO DEL JUEGO
-//                      ---------------------
-                
-                
-                // TaTeTi inicial
+
+
+
+
+//          --------------------------        
+//          |    PRIMER MOVIMIENTO   |
+//          --------------------------     
+                clearConsole();
                 System.out.println("Indique el tateti inicial");
                 int[] tateti = seleccionTablero(validador(in.nextLine()));
                 imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
@@ -42,15 +48,26 @@ public class contraMaquina extends sistema{
                 // Nuevo TaTeTi
                 tateti =seleccionTablero(movimiento);
                 }
-                // MOVIMIENTOS DURANTE EL JUEGO  
+                
+                
+                
+//          --------------------------                       
+//          | SIGUIENTES MOVIMIENTOS |
+//          --------------------------          
+
+
         while(enJuego && !terminarJuego) {
             turno++;
             cantJugadasTateti[tateti[0]/3][tateti[1]/3]++;
             
             
-            // JUGADOR HUMANO
+//          -----------------------
+//          | MOVIMIENTOS JUGADOR |
+//          -----------------------
+
             if(turno%2==0){
-                // SI EL TABLERO ESTA LLENO PARA EL JUGADOR
+                
+//          SI EL TABLERO ESTA LLENO PARA EL JUGADOR
                 while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
                 imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
                 System.out.println("El tablero esta completo, elija otro:");
@@ -58,7 +75,7 @@ public class contraMaquina extends sistema{
                 tateti= seleccionTablero(movimiento);
             }
                 
-                
+            clearConsole();    
             imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
             
             System.out.println("\nIndique su jugada");
@@ -69,22 +86,23 @@ public class contraMaquina extends sistema{
             posicion = seleccionJugada(tateti, movimiento);
             
             
-            // Verifica si la posicion es valida, si no, elige otra.
+//          Verifica si la posicion es valida, si no, elige otra.
             while(tablero[posicion[0]][posicion[1]]=='X' || tablero[posicion[0]][posicion[1]]=='O'){
                 System.out.println("Posicion invalida, vuelva a seleccionar una");
                 movimiento = validador(in.nextLine());
                 posicion = seleccionJugada(tateti, movimiento);
             }
-            
-            
-            
-            
+
             jugada = seleccionJugada(tateti,movimiento);
             }
+
             
-            // Verifica si el tablero esta lleno, de estarlo da la opcion de elegir otro al turno.
             
-            // MAQUINA
+            
+//          -----------------------
+//          | MOVIMIENTOS MAQUINA |
+//          -----------------------
+
             } else {
               // EN CASO DE QUE EL TRABLERO ESTE LLENO
                 if(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
@@ -107,35 +125,32 @@ public class contraMaquina extends sistema{
                     }
 
                     tateti = seleccionTablero(nuevoTablero);
-                    
                 } 
-                
-                
                 
                 movimiento = maquinaCasilla(tablero,tateti);
                 jugada = seleccionJugada(tateti,movimiento);
-               
-               
+
             }
             
             
+
             
-            
-            // COMUN
+//          ---------------------------------                       
+//          | COMUN ENTRE JUGADOR Y MAQUINA |
+//          ---------------------------------          
+
                 tablero = jugadas(tablero,jugada, turno);
                 matrizTestigo = estadoTestigo(matrizTestigo,tablero,tateti);
                 tateti=seleccionTablero(movimiento);
                 
-              
-
                 
-// Tablero lleno
-            if(cantJugadasTateti[tateti[0]/3][tateti[1]/3]==9 && 
-                    matrizTestigo[tateti[0]/3][tateti[1]/3] == 0)
-            {
-                matrizTestigo[tateti[0]/3][tateti[1]/3]=3;
-            }
-            
+//      Tablero empatado.
+                if(cantJugadasTateti[tateti[0]/3][tateti[1]/3]==9 && 
+                        matrizTestigo[tateti[0]/3][tateti[1]/3] == 0)
+                {
+                    matrizTestigo[tateti[0]/3][tateti[1]/3]=3;
+                }
+
          
       
             
@@ -144,11 +159,11 @@ public class contraMaquina extends sistema{
         
         if(ganador== 1){
             enJuego = false;
-            winner = "";
+            winner = "Has perdido!! mejor suerte la proxima";
         } else {
             if(ganador ==2){
                 enJuego = false;
-                winner = "Maquina";
+                winner = "Felicitaciones Has ganado a la maquina";
             }
         }
          
@@ -156,11 +171,14 @@ public class contraMaquina extends sistema{
         }
         
         
+        if(!terminarJuego){
+            clearConsole();
+            imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+            System.out.println(winner);
+        } else {
+            clearConsole();
+        }
         
-        imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-        
-        System.out.println("Felicitaciones "+ winner);
-        clearConsole();
     }
     
     
