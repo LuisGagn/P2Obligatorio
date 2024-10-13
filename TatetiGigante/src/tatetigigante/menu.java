@@ -9,7 +9,7 @@ public class menu {
     
     
     
-    public static String startMenu(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int jugador){
+    public static void startMenu(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int turno, String[] jugadores){
         
        Scanner scanner = new Scanner(System.in);
         int choice;
@@ -34,11 +34,11 @@ public class menu {
                 }
                  case 2-> {
                     System.out.println("Jugar juego");
-                    String ganador = tatetigigante.juego.sistema(tablero,matrizTestigo,cantJugadasTateti,jugador);
-                    return ganador;
+                    tatetigigante.juego.sistema(tablero,matrizTestigo,cantJugadasTateti,turno,jugadores);
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
+                    tatetigigante.contraMaquina.sistema(tablero,matrizTestigo,cantJugadasTateti,turno);
                 }
                    case 4-> {
                     System.out.println("Ranking");
@@ -58,12 +58,8 @@ public class menu {
 
         scanner.close();
         
+  
         
-        
-        
-        
-        
-        return "";
     }
     
     

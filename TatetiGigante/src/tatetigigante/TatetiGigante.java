@@ -54,16 +54,12 @@ String[] banner = {
 
         
        
+       String[] jugadores = {"Luis", "Juan"};
        
-       int jugador = 0;
+       int turno = 0;
        
-       String ganador = menu.startMenu(tablero,matrizTestigo,cantJugadasTateti,jugador);
-       
-       
-       //String ganador = juego.sistema(tablero,matrizTestigo,cantJugadasTateti,jugador);
-       
-       System.out.println("El juego fue ganado por " + ganador);
-  
+       menu.startMenu(tablero,matrizTestigo,cantJugadasTateti,turno, jugadores);
+
       
        
     }

@@ -9,10 +9,10 @@ import java.util.Scanner;
     // Agregar jugada maestra
     // q para volver al menu
     // mostrar jugador y turno
-public class juego {
+public class contraMaquina {
        
   
-    public static void sistema(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int turno, String[] jugadores){
+    public static void sistema(char[][] tablero, int[][] matrizTestigo, int[][] cantJugadasTateti, int turno){
         
         Scanner in = new Scanner(System.in);
         String winner = "";
@@ -35,8 +35,19 @@ public class juego {
                 
                 // Siguientes movimientos      
         while(enJuego) {
-            
             turno++;
+            
+            // JUGADOR
+            if(turno%2==0){
+                
+                 while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
+                imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+                System.out.println("El tablero esta completo, elija otro:");
+                movimiento= validador(in.nextLine());
+                tateti= seleccionTablero(movimiento);
+            }
+                
+                
             imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
             
             System.out.println("\nIndique su jugada");
@@ -56,48 +67,129 @@ public class juego {
             
             
             jugada = seleccionJugada(tateti,movimiento);
-            tablero = jugadas(tablero,jugada, turno);
-            matrizTestigo = estadoTestigo(matrizTestigo, tablero, tateti);
-            tateti = seleccionTablero(movimiento);
             
-            cantJugadasTateti[tateti[0]/3][tateti[1]/3]++;
             
             // Verifica si el tablero esta lleno, de estarlo da la opcion de elegir otro al turno.
-            while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
-                imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-                System.out.println("El tablero esta completo, elija otro:");
-                movimiento= validador(in.nextLine());
-                tateti= seleccionTablero(movimiento);
+           
+            // MAQUINA
+            } else {
+              // EN CASO DE QUE EL TRABLERO ESTE LLENO
+                if(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=10){
+                    String nuevoTablero ="";
+                    boolean stop = false;
+                    for(int i = 0; i < 3 && !stop; i ++){
+                        for(int j = 0; j < 3 &&!stop; j++){
+                            if(cantJugadasTateti[i][j]<8){
+                                nuevoTablero += switch (i){
+                                    case 0 -> 'A';
+                                    case 1 -> 'B';
+                                    case 2 -> 'C';
+                                    default -> '?';
+                                };
+                                
+                                nuevoTablero+= j+1;
+                                System.out.println(cantJugadasTateti[0][0]);
+                                System.out.println(nuevoTablero);
+                                stop = true;
+                            }
+                        }
+                    }
+
+                    tateti = seleccionTablero(nuevoTablero);
+                    
+                } 
+                
+                
+                
+                movimiento = maquinaCasilla(tablero,tateti);
+                jugada = seleccionJugada(tateti,movimiento);
+               
+               
             }
-            
-            
-            // Tablero lleno
+            // COMUN
+                tablero = jugadas(tablero,jugada, turno);
+                matrizTestigo = estadoTestigo(matrizTestigo,tablero,tateti);
+                tateti=seleccionTablero(movimiento);
+                cantJugadasTateti[tateti[0]/3][tateti[1]/3]++;
+              
+
+                
+// Tablero lleno
             if(cantJugadasTateti[tateti[0]/3][tateti[1]/3]==9 && 
                     matrizTestigo[tateti[0]/3][tateti[1]/3] == 0)
             {
                 matrizTestigo[tateti[0]/3][tateti[1]/3]=3;
             }
             
+         
+      
             
             // Verifica si hay ganador
         int ganador = estadoJuego(matrizTestigo);
         
         if(ganador== 1){
             enJuego = false;
-            winner = jugadores[0];
+            winner = "";
         } else {
             if(ganador ==2){
                 enJuego = false;
-                winner = jugadores[1];
+                winner = "Maquina";
             }
         }
-            
+         
+        
         }
         
         
         imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
         System.out.println("Felicitaciones "+ winner);
     }
+    
+    
+    public static String maquinaCasilla(char[][] tablero, int[] tateti){
+        int[] posicion = new int[2];
+        int fila = tateti[0];
+        int col = tateti[1];
+        boolean valido = false;
+        
+        for(int i = fila; i < fila+3 && !valido; i++){
+            for(int j = col; j < col+3 && !valido; j++){
+                
+                if(tablero[i][j]!= 'X' && tablero[i][j] != 'O'){
+                    posicion[0]=i;
+                    posicion[1]=j;
+                    valido=true;
+                }               
+            }
+        }
+        
+        String casilla = "";
+            if(posicion[0] == fila){
+                casilla+='A';
+            } else{ 
+            if(posicion[0] == fila+1){
+                casilla+='B';
+            } else{
+            if(posicion[0] == fila+2){
+                casilla+='C';
+            }
+            }
+            }
+            if(posicion[1] == col){
+                casilla+='1';
+            } else{ 
+            if(posicion[1] == col+1){
+                casilla+='2';
+            } else{
+            if(posicion[1] == col+2){
+                casilla+='3';
+            }
+            }
+            }
+        return casilla;
+        
+    }
+    
     
     
     public static int estadoMatriz(char[][] tablero, int[] tateti){
