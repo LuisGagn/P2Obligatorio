@@ -26,7 +26,7 @@ public class juego extends sistema{
         int[] jugada = new int[2];
         int[] posicion = new int[2];
         boolean[] jugadaUtilizada = new boolean[2];
-
+        String jugadorActual ="";
         
 
 //          --------------------------        
@@ -34,12 +34,14 @@ public class juego extends sistema{
 //          --------------------------     
 
 //      Ingresa el primer tablero
+
+        System.out.println("Comienza: "+jugadores[0] );
         System.out.println("Indique el tateti inicial");
         int[] tateti = seleccionTablero(validador(in.nextLine()));
                 
 //      Ingresa la jugada o termina el juego.        
         imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-        System.out.println("\nIndique su jugada o 'Q' para finalizar");
+        System.out.println("\nIndique su jugada o 'X' para finalizar");
                 
         String movimiento = validador(in.nextLine());
         terminarJuego = terminar(movimiento);
@@ -57,19 +59,38 @@ public class juego extends sistema{
 //          --------------------------          
 
         while(enJuego && !terminarJuego) {
-            System.out.println(tablero[0][0]);
+           
 //          turno: 0 -> n            
             turno++;
+                
+            if(turno%2 == 0 ){
+                jugadorActual = jugadores[0];
+            } else {
+                jugadorActual = jugadores[1];
+            }
+            
+            
             clearConsole();
             imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-            
-            System.out.println("\nIndique su jugada o 'Q' para finalizar");
+            System.out.println("\nTurno de: "+ jugadorActual);
+            System.out.println("\nIndique su jugada o 'X' para finalizar");
             
 //          Verifica si el movimiento ingresado es valido, una jugada maestra o terminar el juego.           
             movimiento = validador(in.nextLine());
             terminarJuego = terminar(movimiento);
             
+        
+            
+            
+            
+            
             if(!terminarJuego){
+                
+                
+                
+//          ------------------
+//          | JUGADA MAESTRA |
+//          ------------------
 
 //          Si es una jugada maestra realiza el borrado del tablero seleccionado.
                 if(movimiento.indexOf('M')!=-1){                    
@@ -78,20 +99,16 @@ public class juego extends sistema{
 //          Indica que el jugador 1 o 2 ya utilizaron su jugada.                        
                         jugadaUtilizada=maestraValidador(turno,jugadaUtilizada);
 //                      Seleccion
-                        System.out.println("Indique el tablero a vaciar");
-                        movimiento = validador(in.nextLine());
+                        System.out.println("Jugada Maestra de: " + jugadorActual);
+                        System.out.println("Indique la casilla a rellenar");
                         
 //                      Borrado
-                        tablero = maestraTablero(tablero, movimiento);
-                        matrizTestigo = maestraTestigo(matrizTestigo, movimiento);
-                        cantJugadasTateti = maestraCantJugadas(cantJugadasTateti, movimiento);
-                        tateti = seleccionTablero(movimiento);
-                        
-//                      Reimpresion y solicitud de jugada
-                        clearConsole();
-                        imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-                        System.out.println("Seleccion la jugada en el tablero");
+                        tablero = maestraTablero(tablero, tateti);
+                        matrizTestigo = maestraTestigo(matrizTestigo, tateti);
+                        cantJugadasTateti = maestraCantJugadas(cantJugadasTateti, tateti);
                         movimiento = validador(in.nextLine());
+                        
+
                     } else {
                         System.out.println("No puedes usar la jugada maestra nuevamente, elige un movimiento valido");
                         movimiento = validador(in.nextLine());
@@ -102,15 +119,17 @@ public class juego extends sistema{
                 
                 
                 
+                
+                
 //          Indica la posicion en tablero de la jugada a cambiar por "X" o "O"                
 //          Luego verifica si la posicion es valida, si no, elige otra.
             posicion = seleccionJugada(tateti, movimiento);
             
             while(tablero[posicion[0]][posicion[1]]=='X' || tablero[posicion[0]][posicion[1]]=='O'){
-                System.out.println("Posicion invalida, vuelva a seleccionar una");
+                System.out.println("\nPosicion invalida, vuelva a seleccionar una");
                 movimiento = validador(in.nextLine());
-                while(movimiento.indexOf('Q')!=-1 || movimiento.indexOf('M') != -1){
-                System.out.println("Indique una posicion valida para luego poder salir.");
+                while(movimiento.indexOf('X')!=-1 || movimiento.indexOf('M') != -1){
+                System.out.println("\nIndique una posicion valida para luego poder salir.");
                 movimiento = validador(in.nextLine());
                 }
                 posicion = seleccionJugada(tateti, movimiento);
@@ -126,7 +145,7 @@ public class juego extends sistema{
 //          Verifica si el tablero esta lleno, de estarlo da la opcion de elegir otro al jugador del turno correspondiente.
             while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
                 imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-                System.out.println("El tablero esta completo, elija otro:");
+                System.out.println("\nEl tablero esta completo, elija otro:");
                 movimiento= validador(in.nextLine());
                 tateti= seleccionTablero(movimiento);
             }
@@ -155,17 +174,30 @@ public class juego extends sistema{
             
         }
         
+            if(empate(matrizTestigo)){
+                enJuego = false;
+                System.out.println("\n EMPATE");
+            }
+            
+            
+            
         }
         clearConsole();
         imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
         
-        if(!terminarJuego){
-        
-        System.out.println("Felicitaciones "+ winner + " por haber ganado el juego");
-        
-        } else{
-            clearConsole();
+        if(terminarJuego){
+
+            if(turno%2 == 0){
+                winner = jugadores[1];
+            } else {
+                winner = jugadores[0];
+            }
+            
+
         }
+        
+        System.out.println("\n\nFelicitaciones "+ winner+ " por haber ganado el juego");
+        
     }
   
 }

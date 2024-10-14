@@ -153,7 +153,7 @@ public class sistema {
         Scanner in = new Scanner(System.in);
         palabra = palabra.toUpperCase();
         boolean posicionIncorrecta = false;
-        boolean quitOrMaestra = (palabra.indexOf('Q')==-1 && palabra.indexOf('M')==-1);
+        boolean quitOrMaestra = (palabra.indexOf('X')==-1 && palabra.indexOf('M')==-1);
         
 //  Verifica que sea un string tipo A1 B2 C3, etc.         
         if (quitOrMaestra && palabra.length()==2){
@@ -197,11 +197,29 @@ public class sistema {
     
     
     
+//  Funcion que detecta empate global
+    public static boolean empate(int[][] matrizTestigo){
+        
+        boolean buscando = true;
+        
+        for(int i = 0; i < 3 && buscando; i++){
+            for(int j = 0; j < 3&& buscando; j++) {
+                if(matrizTestigo[i][j]==0){
+                    buscando = false;
+                }
+            }
+        }
+        
+//  Si buscando es True, significa que no encontre valor, por lo que hay un empate.
+        return buscando;
+    }
+    
+    
     
 //  Devuelve si se indico terminar el juego o no.    
     public static boolean terminar(String movimiento){
 
-        if (movimiento.indexOf('Q')!=-1){
+        if (movimiento.indexOf('X')!=-1){
             return true;
         } else {
             return false;
@@ -300,9 +318,9 @@ public class sistema {
     
     
 //  Borra el mini tablero.    
-    public static char [][] maestraTablero(char[][] tablero, String movimiento){
+    public static char [][] maestraTablero(char[][] tablero, int[] tateti){
         
-        int[] tateti = seleccionTablero(movimiento);
+      // int[] tateti = seleccionTablero(movimiento);
 
         int fila = tateti[0];
         int col = tateti[1];
@@ -317,8 +335,8 @@ public class sistema {
     }
  
 //  Borra los datos del testigo    
-    public static int[][] maestraTestigo(int[][] matrizTestigo, String movimiento){
-        int[] tateti = seleccionTablero(movimiento);
+    public static int[][] maestraTestigo(int[][] matrizTestigo, int[] tateti){
+        //int[] tateti = seleccionTablero(movimiento);
         
         int fila = tateti[0]/3;
         int col = tateti[1]/3;
@@ -330,8 +348,8 @@ public class sistema {
     }
     
 //  Borra las jugadas.
-    public static int[][] maestraCantJugadas(int[][] cantJugadasTateti, String movimiento){
-        int[] tateti = seleccionTablero(movimiento);
+    public static int[][] maestraCantJugadas(int[][] cantJugadasTateti, int[] tateti){
+       // int[] tateti = seleccionTablero(movimiento);
         
         int fila = tateti[0]/3;
         int col = tateti[1]/3;

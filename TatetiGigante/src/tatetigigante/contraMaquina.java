@@ -6,7 +6,7 @@ import tatetigigante.sistema;
 
 
 
-// comentar y decorar comentarios
+// AGREGAR EMPATE
 
 public class contraMaquina extends sistema{
        
@@ -129,7 +129,7 @@ public class contraMaquina extends sistema{
                 
                 movimiento = maquinaCasilla(tablero,tateti);
                 jugada = seleccionJugada(tateti,movimiento);
-
+                System.out.println("La maquina realizo la jugada: " + movimiento);
             }
             
             
