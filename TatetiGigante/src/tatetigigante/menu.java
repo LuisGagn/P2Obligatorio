@@ -31,11 +31,12 @@ public class menu {
             switch (choice) {
                 case 1-> {
                     System.out.println("Registrar a un jugador");
+                    sistema.registroJugador();
                 }
                  case 2-> {
                     clearConsole();
                     System.out.println("Jugando juego");
-                    tatetigigante.juego.jugar(jugadores);
+                    tatetigigante.juego.jugar();
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
@@ -43,6 +44,7 @@ public class menu {
                 }
                    case 4-> {
                     System.out.println("Ranking");
+                    sistema.imprimirRanking();
                 }
                     case 0-> {
                     System.out.println("Saliendo");

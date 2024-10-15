@@ -10,9 +10,15 @@ import tatetigigante.sistema;
     // mostrar jugador y turno
 
 public class juego extends sistema{
-       
+    
+    
+    
+    
+    
+    
   
-    public static void jugar(String[] jugadores){
+    public static void jugar(){
+        String[] jugadoresElegidos = elegirJugadores();
         char[][] tablero =new char[9][9];
         int[][] matrizTestigo = new int[3][3];
         int[][] cantJugadasTateti = new int [3][3];
@@ -35,7 +41,7 @@ public class juego extends sistema{
 
 //      Ingresa el primer tablero
 
-        System.out.println("Comienza: "+jugadores[0] );
+        System.out.println("Comienza: "+jugadoresElegidos[0] );
         System.out.println("Indique el tateti inicial");
         int[] tateti = seleccionTablero(validador(in.nextLine()));
                 
@@ -64,9 +70,9 @@ public class juego extends sistema{
             turno++;
                 
             if(turno%2 == 0 ){
-                jugadorActual = jugadores[0];
+                jugadorActual = jugadoresElegidos[0];
             } else {
-                jugadorActual = jugadores[1];
+                jugadorActual = jugadoresElegidos[1];
             }
             
             
@@ -164,11 +170,11 @@ public class juego extends sistema{
         
         if(ganador== 1){
             enJuego = false;
-            winner = jugadores[0];
+            winner = jugadoresElegidos[0];
         } else {
             if(ganador ==2){
                 enJuego = false;
-                winner = jugadores[1];
+                winner = jugadoresElegidos[1];
             }
         }
             
@@ -188,15 +194,16 @@ public class juego extends sistema{
         if(terminarJuego){
 
             if(turno%2 == 0){
-                winner = jugadores[1];
+                winner = jugadoresElegidos[1];
             } else {
-                winner = jugadores[0];
+                winner = jugadoresElegidos[0];
             }
             
 
         }
         
         System.out.println("\n\nFelicitaciones "+ winner+ " por haber ganado el juego");
+        agregarVictorias(winner);
         
     }
   

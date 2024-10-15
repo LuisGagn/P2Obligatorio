@@ -1,8 +1,9 @@
 
 package tatetigigante;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-
+import tatetigigante.Jugador;
 
 
 
@@ -364,5 +365,99 @@ public class sistema {
     
     
 
+    
+        
+//      ------------------------------
+//      | SISTEMA REGISTRO JUGADORES | 
+//      ------------------------------
+    
+    private static ArrayList<Jugador> jugadores = new ArrayList<>();
+
+    public static void registroJugador(){
+        Scanner in = new Scanner(System.in);
+        
+        boolean deseaRegistrar = true;
+        while(deseaRegistrar){
+            
+            System.out.println("Ingresa el nombre del jugador:");
+            String nombre = in.nextLine();
+
+            System.out.println("Ingresa la edad del jugador:");
+            int edad = in.nextInt();
+            in.nextLine();  // Limpiar el buffer del in
+
+            System.out.println("Ingresa el alias del jugador:");
+            String alias = in.nextLine();
+
+          
+            
+            try {
+            Jugador nuevoJugador = new Jugador(nombre, edad, alias, 0);
+            jugadores.add(nuevoJugador);
+            System.out.println("Jugador registrado exitosamente: "+nuevoJugador);
+            
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                alias = in.nextLine();
+            }
+            
+            System.out.println("¿Desea registrar otro jugador? (s/n)");
+            
+            String respuesta = in.nextLine();
+            
+            if(!respuesta.equalsIgnoreCase("s")){
+                deseaRegistrar=false;
+            }
+            
+        }
+        
+        
+        
+        
+    }
+    
+    public static void imprimirRanking(){
+        System.out.println("\n Jugadores:");
+            
+        for(Jugador jugador : jugadores){
+            System.out.println(jugador);
+        }
+       
+        
+            }
+    
+    
+    
+    
+    public static String[] elegirJugadores(){
+        String[] jugadoresElegidos = new String[2];
+        Scanner in = new Scanner(System.in);
+        
+        for(Jugador jugador : jugadores){
+            System.out.println(jugador.getAlias());
+        }
+        
+        System.out.println("Indique el alias del jugador 1 ");
+        
+        jugadoresElegidos[0] = in.nextLine();
+        
+        System.out.println("Indique el alias del jugador 2 ");
+        jugadoresElegidos[1] = in.nextLine();
+        
+        return jugadoresElegidos;
+        
+    }
+    
+    public static void agregarVictorias(String alias) {
+        
+        for(Jugador jugador: jugadores){
+            if(jugador.getAlias().equals(alias)){
+                jugador.addVictorias();
+            }
+        }
+        
+    }
+    
+    
     
 }
