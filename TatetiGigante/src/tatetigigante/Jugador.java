@@ -1,7 +1,9 @@
 
 package tatetigigante;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+
+
 
 public class Jugador{
     
@@ -9,25 +11,41 @@ public class Jugador{
     private int edad;
     private String alias;
     private int victorias;
+    private String victoriasNum;
     
     
-    private static HashSet<String> aliasRegistrados = new HashSet<>();
+    private static ArrayList<String> aliasRegistrados = new ArrayList<>();
     
     
     // Constructor
     
-    public Jugador(String nombre, int edad, String alias, int victorias) throws Exception{
+    public Jugador(String nombre, int edad, String alias, int victorias){
         this.nombre = nombre;
         this.edad = edad;
         this.victorias = victorias;
+        this.victoriasNum = "";
+        this.alias = alias;
+        aliasRegistrados.add(alias);
+        
+        
+        
+    }
+    
+    public static boolean aliasRegistrado(String alias){
+        
         if(aliasRegistrados.contains(alias)){
-            throw new Exception("Alias en uso, ingrese otro");
+            return false;
         } else {
-            this.alias = alias;
-            aliasRegistrados.add(alias);
+            return true;
         }
         
-        
+    }
+    
+    
+    
+    
+    public String getNombre(){
+        return nombre;
     }
     
     public String getAlias(){
@@ -40,12 +58,15 @@ public class Jugador{
     
     public void addVictorias(){
         this.victorias++;
+        this.victoriasNum += "#";
     }
+    
+    
     
     
     @Override
     public String toString(){
-        return "Nombre: "+ nombre + "Victorias:" +victorias;
+        return nombre + "  |  " +victoriasNum;
     }
     
     

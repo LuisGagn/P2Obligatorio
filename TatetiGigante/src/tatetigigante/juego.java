@@ -2,20 +2,12 @@
 package tatetigigante;
 
 import java.util.Scanner;
-import tatetigigante.sistema;
 
 
 
+public class Juego extends Sistema{
+    
 
-    // mostrar jugador y turno
-
-public class juego extends sistema{
-    
-    
-    
-    
-    
-    
   
     public static void jugar(){
         String[] jugadoresElegidos = elegirJugadores();
@@ -46,7 +38,7 @@ public class juego extends sistema{
         int[] tateti = seleccionTablero(validador(in.nextLine()));
                 
 //      Ingresa la jugada o termina el juego.        
-        imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+        imprimirTablero(tablero, tateti, matrizTestigo);
         System.out.println("\nIndique su jugada o 'X' para finalizar");
                 
         String movimiento = validador(in.nextLine());
@@ -77,7 +69,7 @@ public class juego extends sistema{
             
             
             clearConsole();
-            imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+            imprimirTablero(tablero, tateti, matrizTestigo);
             System.out.println("\nTurno de: "+ jugadorActual);
             System.out.println("\nIndique su jugada o 'X' para finalizar");
             
@@ -150,7 +142,7 @@ public class juego extends sistema{
             
 //          Verifica si el tablero esta lleno, de estarlo da la opcion de elegir otro al jugador del turno correspondiente.
             while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
-                imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+                imprimirTablero(tablero, tateti, matrizTestigo);
                 System.out.println("\nEl tablero esta completo, elija otro:");
                 movimiento= validador(in.nextLine());
                 tateti= seleccionTablero(movimiento);
@@ -189,7 +181,7 @@ public class juego extends sistema{
             
         }
         clearConsole();
-        imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+        imprimirTablero(tablero, tateti, matrizTestigo);
         
         if(terminarJuego){
 

@@ -1,11 +1,10 @@
 
 package tatetigigante;
 
-import java.util.Arrays;
+
 import java.util.Scanner;
 import tatetigigante.Colors;
-import tatetigigante.imprimirTablero;
-import tatetigigante.juego;
+import static tatetigigante.Sistema.clearConsole;
 
 public class TatetiGigante {
     // TRYCATCH EVERYTHING
@@ -35,13 +34,11 @@ String[] banner = {
        ;
        
        
+
+       
+       startMenu();
+       
       
-       String[] jugadores = {"Luis", "Juan"};
-       
-
-       
-       menu.startMenu(jugadores);
-
       
        
     }
@@ -53,6 +50,61 @@ String[] banner = {
     
     
     
+        public static void startMenu(){
+        
+       Scanner in = new Scanner(System.in);
+        int choice;
+
+        do {
+            // Opciones menu principal
+            System.out.println("=== Menu Principal ===");
+            System.out.println("1. Registrar jugador");
+            System.out.println("2. Jugar entre 2 jugadores");
+            System.out.println("3. Vs. Maquina");
+            System.out.println("4. Ranking");
+            System.out.println("0. Salir");
+            System.out.print("Indique su opcion: ");
+
+            // Get user input
+            choice = in.nextInt();
+
+            // Process the user's choice
+            switch (choice) {
+                case 1-> {
+                    System.out.println("Registrar a un jugador");
+                    Sistema.registroJugador();
+                }
+                 case 2-> {
+                    clearConsole();
+                    System.out.println("Jugando juego");
+                    tatetigigante.Juego.jugar();
+                }
+                  case 3-> {
+                    System.out.println("Contra la maquina");
+                    tatetigigante.ContraMaquina.jugar();
+                }
+                   case 4-> {
+                    System.out.println("Ranking");
+                    Sistema.imprimirRanking();
+                }
+                    case 0-> {
+                    System.out.println("Saliendo");
+                }
+                default->{
+                    System.out.println("Opcion invalida, intente con otra.");
+                }
+            }
+
+            // Add a line break for clarity
+            System.out.println();
+
+        } while (choice != 0); // Continue until the user chooses to exit
+
+        in.close();
+        
+  
+        
+    }
     
     
     

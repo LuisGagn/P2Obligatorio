@@ -2,13 +2,12 @@
 package tatetigigante;
 
 import java.util.Scanner;
-import tatetigigante.sistema;
 
 
 
 // AGREGAR EMPATE
 
-public class contraMaquina extends sistema{
+public class ContraMaquina extends Sistema{
        
   
     public static void jugar(){
@@ -27,13 +26,13 @@ public class contraMaquina extends sistema{
 
 
 
-//          --------------------------        
-//          |    PRIMER MOVIMIENTO   |
-//          --------------------------     
+//          -------------------------        
+//          |   PRIMER MOVIMIENTO   |
+//          -------------------------     
                 clearConsole();
                 System.out.println("Indique el tateti inicial");
                 int[] tateti = seleccionTablero(validador(in.nextLine()));
-                imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+                imprimirTablero(tablero, tateti, matrizTestigo);
                 
                 // Jugada
                 System.out.println("\nIndique su jugada");
@@ -69,16 +68,16 @@ public class contraMaquina extends sistema{
                 
 //          SI EL TABLERO ESTA LLENO PARA EL JUGADOR
                 while(cantJugadasTateti[tateti[0]/3][tateti[1]/3]>=9){
-                imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+                imprimirTablero(tablero, tateti, matrizTestigo);
                 System.out.println("El tablero esta completo, elija otro:");
                 movimiento= validador(in.nextLine());
                 tateti= seleccionTablero(movimiento);
             }
                 
             clearConsole();    
-            imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
-            
-            System.out.println("\nIndique su jugada");
+            imprimirTablero(tablero, tateti, matrizTestigo);
+            System.out.println("\nLa maquina realizo la jugada: " + movimiento);
+            System.out.println("\nIndique su jugada o 'X' para salir");
             movimiento = validador(in.nextLine());
             terminarJuego = terminar(movimiento);
             if(!terminarJuego){
@@ -129,7 +128,7 @@ public class contraMaquina extends sistema{
                 
                 movimiento = maquinaCasilla(tablero,tateti);
                 jugada = seleccionJugada(tateti,movimiento);
-                System.out.println("La maquina realizo la jugada: " + movimiento);
+                
             }
             
             
@@ -167,13 +166,18 @@ public class contraMaquina extends sistema{
             }
         }
          
+        if(empate(matrizTestigo)){
+            clearConsole();
+            System.out.println("EMPATE");
+            enJuego = false;
+        }
         
         }
         
         
         if(!terminarJuego){
             clearConsole();
-            imprimirTablero.imprimirConsola(tablero, tateti, matrizTestigo);
+            imprimirTablero(tablero, tateti, matrizTestigo);
             System.out.println(winner);
         } else {
             clearConsole();

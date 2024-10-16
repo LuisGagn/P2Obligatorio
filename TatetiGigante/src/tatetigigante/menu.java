@@ -2,14 +2,14 @@
 package tatetigigante;
 
 import java.util.Scanner;
-import static tatetigigante.sistema.clearConsole;
+import static tatetigigante.Sistema.clearConsole;
 
 
 public class menu {
     
     
     
-    public static void startMenu(String[] jugadores){
+    public static void startMenu(){
         
        Scanner in = new Scanner(System.in);
         int choice;
@@ -31,20 +31,20 @@ public class menu {
             switch (choice) {
                 case 1-> {
                     System.out.println("Registrar a un jugador");
-                    sistema.registroJugador();
+                    Sistema.registroJugador();
                 }
                  case 2-> {
                     clearConsole();
                     System.out.println("Jugando juego");
-                    tatetigigante.juego.jugar();
+                    tatetigigante.Juego.jugar();
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
-                    tatetigigante.contraMaquina.jugar();
+                    tatetigigante.ContraMaquina.jugar();
                 }
                    case 4-> {
                     System.out.println("Ranking");
-                    sistema.imprimirRanking();
+                    Sistema.imprimirRanking();
                 }
                     case 0-> {
                     System.out.println("Saliendo");
