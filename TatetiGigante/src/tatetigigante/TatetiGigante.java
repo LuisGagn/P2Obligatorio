@@ -81,7 +81,7 @@ String[] banner = {
                 }
                   case 3-> {
                     System.out.println("Contra la maquina");
-                    tatetigigante.ContraMaquina.jugar();
+                    tatetigigante.Juego.jugarMaquina();
                 }
                    case 4-> {
                     System.out.println("Ranking");
