@@ -24,7 +24,7 @@ String[] banner = {
             System.out.println(line);
             Thread.sleep(100);  // 300 ms delay between each line
         }
-        System.out.println("\nINSERTAR MENU INTERACTIVO DSPS");
+        System.out.println(Colors.GREEN+"\nBIENVENIDO AL TATETI GIGANTE"+Colors.RESET);
     }
 
     public static void main(String[] args)throws InterruptedException {
@@ -57,12 +57,12 @@ String[] banner = {
 
         do {
             // Opciones menu principal
-            System.out.println("=== Menu Principal ===");
-            System.out.println("1. Registrar jugador");
-            System.out.println("2. Jugar entre 2 jugadores");
-            System.out.println("3. Vs. Maquina");
-            System.out.println("4. Ranking");
-            System.out.println("0. Salir");
+            System.out.println(Colors.GREEN+"=== Menu Principal ==="+Colors.RESET);
+            System.out.println(Colors.PURPLE+"1. Registrar jugador");
+            System.out.println("2. Jugar entre 2 jugadores"+Colors.RESET);
+            System.out.println(Colors.PURPLE+"3. Vs. Maquina");
+            System.out.println("4. Ranking"+Colors.RESET);
+            System.out.println(Colors.RED+"0. Salir"+Colors.RESET);
             System.out.print("Indique su opcion: ");
 
             // Get user input
