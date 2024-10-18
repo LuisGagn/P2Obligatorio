@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.Scanner;
 import tatetigigante.Jugador;
 
-
 // AGREGAR COLORES AL MENU
 
 public class Sistema{
@@ -140,7 +139,8 @@ public class Sistema{
 
     
 //  Ingresa "X" o "O" segun el turno.
-    public static char[][] jugadas (char[][] tablero, int[] jugada, int turno){
+
+    public static char jugadas (int[] jugada, int turno){
         
         // Valores  Par --> turno 1 || Impar --> turno 2
         char valor ='X';
@@ -148,8 +148,7 @@ public class Sistema{
             valor = 'O';
         }        
         
-        tablero[jugada[0]][jugada[1]] = valor;
-        return tablero;
+        return valor;
     }
     
    
@@ -311,7 +310,6 @@ public class Sistema{
     
 //  Modifica el valor si se utiliza la jugada maestra.    
     public static boolean[] maestraValidador(int turno, boolean[] jugadaUtilizada){
-        System.out.println(turno);
        
         if(turno%2 == 0){
             jugadaUtilizada[0] = true;
@@ -327,8 +325,6 @@ public class Sistema{
 //  Borra el mini tablero.    
     public static char [][] maestraTablero(char[][] tablero, int[] tateti){
         
-      // int[] tateti = seleccionTablero(movimiento);
-
         int fila = tateti[0];
         int col = tateti[1];
         
@@ -343,7 +339,6 @@ public class Sistema{
  
 //  Borra los datos del testigo    
     public static int[][] maestraTestigo(int[][] matrizTestigo, int[] tateti){
-        //int[] tateti = seleccionTablero(movimiento);
         
         int fila = tateti[0]/3;
         int col = tateti[1]/3;
@@ -356,7 +351,6 @@ public class Sistema{
     
 //  Borra las jugadas.
     public static int[][] maestraCantJugadas(int[][] cantJugadasTateti, int[] tateti){
-       // int[] tateti = seleccionTablero(movimiento);
         
         int fila = tateti[0]/3;
         int col = tateti[1]/3;
@@ -455,7 +449,7 @@ public class Sistema{
     
     
 //  Indica el alias del jugador elegido y verifica que no se elija el mismo jugador dos veces.    
-    public static String[] elegirJugadores(){
+    public static String[] elegirJugadores(int cant){
         clearConsole();
         int index;
         String[] jugadoresElegidos = new String[2];
@@ -486,14 +480,15 @@ public class Sistema{
         }
         
 //      Pide el numero de la lista para facilitar la seleccion.         PLAYER 2
-        while(true){
+        boolean seleccionando = true;
+        while(seleccionando && cant==2){
         try{
         System.out.println("Indique el numero del jugador deseado"+Colors.BLUE +" (P2)"+Colors.RESET);
         index = in.nextInt()-1;
         if(!jugadores.get(index).getAlias().equals(jugadoresElegidos[0])){
         jugadoresElegidos[1] = jugadores.get(index).getAlias();
         clearConsole();
-        return jugadoresElegidos;
+        seleccionando = false;
         } else {
             throw new Exception ("Jugador repetido");
         }
@@ -505,7 +500,7 @@ public class Sistema{
             in.nextLine();
         }
         }
-        
+        return jugadoresElegidos;
     }
     
     

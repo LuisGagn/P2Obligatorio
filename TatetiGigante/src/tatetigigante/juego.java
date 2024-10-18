@@ -10,7 +10,10 @@ import java.util.Scanner;
 
 public class Juego extends Sistema{
     
-
+       
+       private static char[][] tablero =new char[9][9];
+       private static int[][] matrizTestigo = new int[3][3];
+       private static int[][] cantJugadasTateti = new int [3][3];
     
             //////////////////////////////////////////////////
             //          --------------------------          //                    
@@ -19,16 +22,13 @@ public class Juego extends Sistema{
             //          | JUGADOR CONTRA JUGADOR |          //
             //          --------------------------          //   
             //////////////////////////////////////////////////
-    
-    
+
+            
     
   
     public static void jugar(){
-        String[] jugadoresElegidos = elegirJugadores();
-        char[][] tablero =new char[9][9];
-        int[][] matrizTestigo = new int[3][3];
-        int[][] cantJugadasTateti = new int [3][3];
-        
+        String[] jugadoresElegidos = elegirJugadores(2);
+
         // Inicializaciones necesarias
         Scanner in = new Scanner(System.in);
         String winner = "";
@@ -60,7 +60,7 @@ public class Juego extends Sistema{
                 
         if(!terminarJuego){
             jugada = seleccionJugada(tateti, movimiento);
-            tablero = jugadas(tablero,jugada, turno);
+            tablero[jugada[0]][jugada[1]] = jugadas(jugada, turno);
             cantJugadasTateti[tateti[0]/3][tateti[1]/3]++;
             tateti =seleccionTablero(movimiento);
         }
@@ -98,57 +98,31 @@ public class Juego extends Sistema{
             
             if(!terminarJuego){
                 
-                
-                
-//          ------------------
-//          | JUGADA MAESTRA |
-//          ------------------
+            movimiento= jugadaMaestra(turno,  movimiento,tateti, jugadaUtilizada, jugadorActual );
 
-//          Si es una jugada maestra realiza el borrado del tablero seleccionado.
-                if(movimiento.indexOf('M')!=-1){                    
-                    if(maestra(turno,jugadaUtilizada)){
-                    
-//          Indica que el jugador 1 o 2 ya utilizaron su jugada.                        
-                        jugadaUtilizada=maestraValidador(turno,jugadaUtilizada);
-//                      Seleccion
-                        System.out.println("Jugada Maestra de: " + jugadorActual);
-                        System.out.println("Indique la casilla a rellenar");
-                        
-//                      Borrado
-                        tablero = maestraTablero(tablero, tateti);
-                        matrizTestigo = maestraTestigo(matrizTestigo, tateti);
-                        cantJugadasTateti = maestraCantJugadas(cantJugadasTateti, tateti);
-                        movimiento = validador(in.nextLine());
-                        
-
-                    } else {
-                        System.out.println("No puedes usar la jugada maestra nuevamente, elige un movimiento valido");
-                        movimiento = validador(in.nextLine());
-                        
-                    }
-                    
-                }
-                
-                
-                
-                
-                
 //          Indica la posicion en tablero de la jugada a cambiar por "X" o "O"                
 //          Luego verifica si la posicion es valida, si no, elige otra.
             posicion = seleccionJugada(tateti, movimiento);
             
             while(tablero[posicion[0]][posicion[1]]=='X' || tablero[posicion[0]][posicion[1]]=='O'){
+     
                 System.out.println("\nPosicion invalida, vuelva a seleccionar una");
                 movimiento = validador(in.nextLine());
-                while(movimiento.indexOf('X')!=-1 || movimiento.indexOf('M') != -1){
-                System.out.println("\nIndique una posicion valida para luego poder salir.");
-                movimiento = validador(in.nextLine());
-                }
+                
+                    if (movimiento.indexOf('M')!=-1){
+                        
+                        movimiento= jugadaMaestra(turno, movimiento,tateti, jugadaUtilizada, jugadorActual );
+                    } else{
+                        while(movimiento.indexOf('X')!= -1 || movimiento.indexOf('M')!= -1)
+                        System.out.println("\nIndique una posicion valida para luego poder salir.");
+                       
+                    }
+                
                 posicion = seleccionJugada(tateti, movimiento);
             }
 //          Ingresa la jugada y la informacion sobre la misma.
             jugada = seleccionJugada(tateti,movimiento);
-            tablero = jugadas(tablero,jugada, turno);
+            tablero[jugada[0]][jugada[1]] = jugadas(jugada, turno);
             matrizTestigo = estadoTestigo(matrizTestigo, tablero, tateti);
             tateti = seleccionTablero(movimiento);
             cantJugadasTateti[tateti[0]/3][tateti[1]/3]++;
@@ -210,9 +184,46 @@ public class Juego extends Sistema{
         
         System.out.println("\n\nFelicitaciones "+ winner+ " por haber ganado el juego");
         agregarVictorias(winner);
+        resetGame();
         
     }
  
+    
+//          ------------------
+//          | JUGADA MAESTRA |
+//          ------------------
+public static String jugadaMaestra(int turno, String movimiento, int[] tateti, boolean[] jugadaUtilizada, String jugadorActual ){
+    
+            Scanner in = new Scanner(System.in);
+    
+//          Si es una jugada maestra realiza el borrado del tablero seleccionado.
+                    if(movimiento.indexOf('M')!=-1){                    
+                    if(maestra(turno,jugadaUtilizada)){
+                    
+//          Indica que el jugador 1 o 2 ya utilizaron su jugada.                        
+                        jugadaUtilizada=maestraValidador(turno,jugadaUtilizada);
+//                      Seleccion
+                        System.out.println("Jugada Maestra de: " + jugadorActual);
+                        System.out.println("Indique la casilla a rellenar");
+                        
+//                      Borrado
+                        tablero = maestraTablero(tablero, tateti);
+                        matrizTestigo = maestraTestigo(matrizTestigo, tateti);
+                        cantJugadasTateti = maestraCantJugadas(cantJugadasTateti, tateti);
+                        movimiento = validador(in.nextLine());
+                        
+
+                    } else {
+                        System.out.println("No puedes usar la jugada maestra nuevamente, elige un movimiento valido");
+                        movimiento = validador(in.nextLine());
+                        
+                    }
+                    
+                }
+    return movimiento;
+} 
+    
+    
     
             ///////////////////////////////////////////////////
             //          ---------------------------          //                    
@@ -227,10 +238,11 @@ public class Juego extends Sistema{
     
     
       public static void jugarMaquina(){
+          
+        String[] jugadoresElegidos = elegirJugadores(1);
+          
         int turno = 0;
-        char[][] tablero =new char[9][9];
-        int[][] matrizTestigo = new int[3][3];
-        int[][] cantJugadasTateti = new int [3][3];
+
         
         Scanner in = new Scanner(System.in);
         String winner = "";
@@ -258,7 +270,7 @@ public class Juego extends Sistema{
 
                 if(!terminarJuego){
                 jugada = seleccionJugada(tateti, movimiento);
-                tablero = jugadas(tablero,jugada, turno);
+                tablero[jugada[0]][jugada[1]] = jugadas(jugada, turno);
 
                 // Nuevo TaTeTi
                 tateti =seleccionTablero(movimiento);
@@ -354,7 +366,7 @@ public class Juego extends Sistema{
 //          | COMUN ENTRE JUGADOR Y MAQUINA |
 //          ---------------------------------          
 
-                tablero = jugadas(tablero,jugada, turno);
+                tablero[jugada[0]][jugada[1]] = jugadas(jugada, turno);
                 matrizTestigo = estadoTestigo(matrizTestigo,tablero,tateti);
                 tateti=seleccionTablero(movimiento);
                 
@@ -378,7 +390,7 @@ public class Juego extends Sistema{
         } else {
             if(ganador ==2){
                 enJuego = false;
-                winner = "Felicitaciones Has ganado a la maquina";
+                winner = "Felicitaciones"+jugadoresElegidos[0]+ "Has ganado a la maquina";
             }
         }
          
@@ -399,13 +411,31 @@ public class Juego extends Sistema{
             clearConsole();
         }
         
+        resetGame();
     }
     
     
-    
-    
-    
-    
-    
+    public static void resetGame(){
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                tablero[i][j] = '\u0000';  
+            }
+        }
+
+        // Clear matrizTestigo (set every cell to 0)
+        for (int i = 0; i < matrizTestigo.length; i++) {
+            for (int j = 0; j < matrizTestigo[i].length; j++) {
+                matrizTestigo[i][j] = 0;  
+            }
+        }
+
+        // Clear cantJugadasTateti (set every cell to 0)
+        for (int i = 0; i < cantJugadasTateti.length; i++) {
+            for (int j = 0; j < cantJugadasTateti[i].length; j++) {
+                cantJugadasTateti[i][j] = 0;  
+            }
+    }
+
+}
     
 }
