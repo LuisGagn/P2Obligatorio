@@ -1,3 +1,8 @@
+// CLASE SISTEMA
+// REALIZADO POR:
+// LUIS GAGÑEVIN 
+// N° 338643
+
 
 package tatetigigante;
 

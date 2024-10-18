@@ -1,12 +1,16 @@
+// CLASE COLORES
+// REALIZADO POR:
+// LUIS GAGÑEVIN 
+// N° 338643
 
 package tatetigigante;
 
 
 public class Colors {
-       // Reset
+    // RESET
     public static final String RESET = "\u001B[0m";
 
-    // Regular Colors
+    // COLORES
     public static final String BLACK = "\u001B[30m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -16,27 +20,7 @@ public class Colors {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
-    // Bold Colors
-    public static final String BLACK_BOLD = "\u001B[30;1m";
-    public static final String RED_BOLD = "\u001B[31;1m";
-    public static final String GREEN_BOLD = "\u001B[32;1m";
-    public static final String YELLOW_BOLD = "\u001B[33;1m";
-    public static final String BLUE_BOLD = "\u001B[34;1m";
-    public static final String PURPLE_BOLD = "\u001B[35;1m";
-    public static final String CYAN_BOLD = "\u001B[36;1m";
-    public static final String WHITE_BOLD = "\u001B[37;1m";
-
-    // Underlined Colors
-    public static final String BLACK_UNDERLINED = "\u001B[30;4m";
-    public static final String RED_UNDERLINED = "\u001B[31;4m";
-    public static final String GREEN_UNDERLINED = "\u001B[32;4m";
-    public static final String YELLOW_UNDERLINED = "\u001B[33;4m";
-    public static final String BLUE_UNDERLINED = "\u001B[34;4m";
-    public static final String PURPLE_UNDERLINED = "\u001B[35;4m";
-    public static final String CYAN_UNDERLINED = "\u001B[36;4m";
-    public static final String WHITE_UNDERLINED = "\u001B[37;4m";
-
-    // Background Colors
+    // FONDOS
     public static final String BLACK_BACKGROUND = "\u001B[40m";
     public static final String RED_BACKGROUND = "\u001B[41m";
     public static final String GREEN_BACKGROUND = "\u001B[42m";
@@ -46,25 +30,7 @@ public class Colors {
     public static final String CYAN_BACKGROUND = "\u001B[46m";
     public static final String WHITE_BACKGROUND = "\u001B[47m";
 
-    // High Intensity Colors
-    public static final String BLACK_BRIGHT = "\u001B[90m";
-    public static final String RED_BRIGHT = "\u001B[91m";
-    public static final String GREEN_BRIGHT = "\u001B[92m";
-    public static final String YELLOW_BRIGHT = "\u001B[93m";
-    public static final String BLUE_BRIGHT = "\u001B[94m";
-    public static final String PURPLE_BRIGHT = "\u001B[95m";
-    public static final String CYAN_BRIGHT = "\u001B[96m";
-    public static final String WHITE_BRIGHT = "\u001B[97m";
-
-    // High Intensity Backgrounds
-    public static final String BLACK_BACKGROUND_BRIGHT = "\u001B[100m";
-    public static final String RED_BACKGROUND_BRIGHT = "\u001B[101m";
-    public static final String GREEN_BACKGROUND_BRIGHT = "\u001B[102m";
-    public static final String YELLOW_BACKGROUND_BRIGHT = "\u001B[103m";
-    public static final String BLUE_BACKGROUND_BRIGHT = "\u001B[104m";
-    public static final String PURPLE_BACKGROUND_BRIGHT = "\u001B[105m";
-    public static final String CYAN_BACKGROUND_BRIGHT = "\u001B[106m";
-    public static final String WHITE_BACKGROUND_BRIGHT = "\u001B[107m";
+  
 }
     
     
